@@ -1,6 +1,5 @@
 package me.timur.docs.repository
 
-import jdk.jshell.Snippet
 import me.timur.docs.domain.Group
 import me.timur.docs.domain.User
 import me.timur.docs.enums.GroupStatus

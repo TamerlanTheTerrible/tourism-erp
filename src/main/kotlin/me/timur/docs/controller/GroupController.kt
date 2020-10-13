@@ -1,0 +1,106 @@
+package me.timur.docs.controller
+
+import me.timur.docs.domain.Group
+import me.timur.docs.enums.GroupStatus
+import me.timur.docs.security.UserPrincipal
+import me.timur.docs.service.CompanyService
+import me.timur.docs.service.GroupService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.access.annotation.Secured
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.*
+import javax.annotation.security.RolesAllowed
+import javax.servlet.http.HttpServletRequest
+
+@Controller
+@RequestMapping("to/groups")
+class GroupController (@Autowired private val groupService: GroupService,
+                        private val companyService: CompanyService) {
+
+    @GetMapping("/all")
+    fun all(model : Model) : String {
+        val groups = groupService.findAll()
+        model.addAttribute("groups", groups)
+        return "tour_operator/group/groups_cancelled"
+    }
+
+    @GetMapping("/all-booked")
+    fun allBooked(model : Model) : String {
+        val groups = groupService.findAllByStatus(GroupStatus.BOOKED)
+        model.addAttribute("groups", groups)
+        return "tour_operator/group/groups"
+    }
+
+    @GetMapping("/all-cancelled")
+    fun allCancelled(model: Model): String {
+        model.addAttribute("groups", groupService.findAllByStatus(GroupStatus.CANCELLED))
+        return "tour_operator/group/groups_cancelled"
+    }
+
+
+    @GetMapping("/all-by-to")
+    fun allByTourOperator(@AuthenticationPrincipal userPrincipal: UserPrincipal, model : Model): String{
+        model.addAttribute("groups", groupService.findAllByTourOperatorAndStatus(userPrincipal.user, GroupStatus.BOOKED))
+        return "tour_operator/group/groups"
+    }
+
+    @GetMapping("/all-booked-by-to", "/")
+    fun allBookedByTourOperator(@AuthenticationPrincipal userPrincipal: UserPrincipal, model : Model): String{
+        val groups= groupService.findAllByTourOperatorAndStatus(userPrincipal.user, GroupStatus.BOOKED)
+        model.addAttribute("groups", groups)
+        return "tour_operator/group/groups"
+    }
+
+    @GetMapping("/all-cancelled-by-to")
+    fun allCancelledByTourOperator(@AuthenticationPrincipal userPrincipal: UserPrincipal,model : Model): String{
+        val groups= groupService.findAllByTourOperatorAndStatus(userPrincipal.user, GroupStatus.CANCELLED)
+        model.addAttribute("groups", groups)
+        return "tour_operator/group/groups"
+    }
+
+    //TODO validate the form. Arrival date is must
+    @RequestMapping("/new")
+    fun new(model : Model) : String {
+        val group  = Group()
+        model.addAttribute("group", group)
+        return "tour_operator/group/group_new"
+    }
+
+    @PostMapping("/save")
+    fun save(@ModelAttribute("group") group: Group,
+             @AuthenticationPrincipal userPrincipal: UserPrincipal) : String {
+        groupService.save(group, userPrincipal.user)
+        return "redirect:/to/groups/"
+    }
+
+    @RequestMapping("/update")
+//        @RequestMapping("/update", method = {RequestMethod.PUT, RequestMethod.GET})
+    fun update(group: Group, @AuthenticationPrincipal userPrincipal: UserPrincipal): String{
+        groupService.update(group, userPrincipal.user);
+        return "redirect:/to/groups/"
+    }
+
+    @RequestMapping("/cancel/{id}")
+    fun cancel(@PathVariable(name="id") id: Long): String{
+        groupService.cancel(id)
+        return "redirect:/to/groups/"
+    }
+
+    @GetMapping("/findById/{id}")
+    @ResponseBody
+    fun findById(@PathVariable id: Long): Group{
+        val group = groupService.findById(id)
+        group.arrivalInString = group.arrival.toString().substring(0,11);
+        group.dateCreatedInString = group.dateCreated.toString();
+        return group
+    }
+
+//    @PostMapping("/save-model")
+//    fun saveModal(group: Group) : String {
+//        groupService.save(group)
+//        return "redirect:/"
+//    }
+}

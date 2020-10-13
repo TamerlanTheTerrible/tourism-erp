@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:insert="fragments.html :: headerfiles">
+    <title>Accommodation</title>
+</head>
+
+<body >
+<div th:insert="fragments.html :: nav"></div>
+<br/>
+
+<div class="container-fluid row">
+    <div th:insert="fragments.html :: nav-left" class="col-2 container-fluid" ></div>
+    <div class="col-10">
+        <div class="container-fluid">
+            <h1 style="border-bottom: 1px solid black">Welcome!!!</h1>
+        </div>
+    </div>
+
+</div>
+
+
+<footer th:insert="fragments.html :: footerfiles"></footer>
+
+</body>
+</html>

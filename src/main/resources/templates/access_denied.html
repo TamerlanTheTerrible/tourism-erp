@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:insert="fragments.html :: headerfiles">
+    <title>Accommodation</title>
+</head>
+
+<body >
+<div th:insert="fragments.html :: nav"></div>
+<br/>
+
+<div class="container-fluid row">
+    <div class="col-10">
+        <div style="position: absolute; top: 50%" class="container-fluid">
+            <h1>Oops, you do not have permission to view this page</h1>
+            Return to <a  th:href="@{/index}" class="btn btn-outline-success btnEdit">Home</a>
+        </div>
+    </div>
+
+</div>
+
+
+<footer th:insert="fragments.html :: footerfiles"></footer>
+
+</body>
+</html>

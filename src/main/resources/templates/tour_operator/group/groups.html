@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:insert="fragments.html :: headerfiles">
+    <title>Groups</title>
+</head>
+
+<body >
+<div th:insert="fragments.html :: nav"></div>
+<br/>
+
+<div class="container-fluid row">
+    <div th:insert="fragments.html :: nav-left" class="col-2 container-fluid" ></div>
+    <div class="col-10">
+        <div class="container-fluid">
+            <h1 style="border-bottom: 1px solid black">GROUPS</h1>
+            <br/>
+            <!--            <a th:href="@{/to/groups/new}" class="btn btn-primary">New Group</a>-->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal" >New Group</button>
+            <div class="card">
+                <div class="card-block">
+                    <table class="table table-hover table-sm table-striped">
+                        <thead class="thead-dark">
+                        <th>Group #</th>
+                        <th>Pax</th>
+                        <th style="width: 15%">Company</th>
+                        <th>Country</th>
+                        <th>Arrival</th>
+                        <!--                        <th style="width: 15%">Guides</th>-->
+                        <th style="width: 20%">Comments</th>
+                        <th>Actions</th>
+                        </thead>
+                        <tbody>
+                        <tr th:each="group: ${groups}"
+                            th:style="${!group.isActive()} ? 'color:red'">
+                            <td th:text="${group.groupNumber}" style="font-weight: bold">Group #</td>
+                            <td th:text="${group.pax}">Pax</td>
+                            <td th:text="${group.company }">Company</td>
+                            <td th:text="${group.country}">Country</td>
+                            <td th:text="${#dates.format(group.arrival, 'dd/MMM/yyyy')}">Arrival</td>
+                            <!--                            <td th:text="${group.guides}" style="font-size: small">Guides</td>-->
+                            <td th:text="${group.comments}" style="font-size: smaller; font-style: italic">Comments</td>
+                            <td>
+                                <a  th:href="@{'/to/groups/findById/' + ${group.id}}" class="btn btn-outline-success btnEdit">Edit</a>&nbsp;
+                                <a th:href="@{'/to/groups/cancel/' + ${group.id}}" class="btn btn-outline-danger">Cancel</a>
+                                <a th:href="@{'/to/accommodation/new/' + ${group.id}}" class="btn btn-outline-info">Accommodation</a>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!--ADD MODAL-->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form th:action="@{/to/groups/save}" method="post">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">New Group</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="company" class="col-form-label">Company:</label>
+                        <input type="text" class="form-control" id="company" name="company">
+                    </div>
+                    <div class="form-group">
+                        <label for="country" class="col-form-label">Country:</label>
+                        <input type="text" class="form-control" id="country" name="country">
+                    </div>
+                    <div class="form-group">
+                        <label for="pax" class="col-form-label">Pax:</label>
+                        <input type="text" class="form-control" id="pax" name="pax">
+                    </div>
+                    <div class="form-group">
+                        <label for="arrival" class="col-form-label">Arrival:</label>
+                        <input type="date" class="form-control" id="arrival" name="arrivalInString">
+                    </div>
+                    <!--                    <div class="form-group">-->
+                    <!--                        <label for="guides" class="col-form-label">Guides:</label>-->
+                    <!--                        <input type="text" class="form-control" id="guides" name="guides">-->
+                    <!--                    </div>-->
+                    <div class="form-group">
+                        <label for="comments" class="col-form-label">Comments:</label>
+                        <textarea class="form-control" id="comments" name="comments"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<!--EDIT MODAL-->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form th:action="@{/to/groups/update}" method="put">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit group</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="idEdit" name="id">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="dateCreatedEdit" name="dateCreatedInString">
+                    </div>
+                    <div class="form-group">
+                        <label for="groupNumberEdit" class="col-form-label">Group number</label>
+                        <input type="text" class="form-control" id="groupNumberEdit" name="groupNumber" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label for="companyEdit" class="col-form-label">Company:</label>
+                        <input type="text" class="form-control" id="companyEdit" name="company">
+                    </div>
+                    <div class="form-group">
+                        <label for="countryEdit" class="col-form-label">Country:</label>
+                        <input type="text" class="form-control" id="countryEdit" name="country">
+                    </div>
+                    <div class="form-group">
+                        <label for="paxEdit" class="col-form-label">Pax:</label>
+                        <input type="text" class="form-control" id="paxEdit" name="pax">
+                    </div>
+                    <div class="form-group">
+                        <label for="arrivalEdit" class="col-form-label">Arrival:</label>
+                        <input type="text" class="form-control margin-bottom-20" id="arrivalEdit" name="arrivalInString">
+                    </div>
+                    <!--                    <div class="form-group">-->
+                    <!--                        <label for="guidesEdit" class="col-form-label">Guides:</label>-->
+                    <!--                        <input type="text" class="form-control" id="guidesEdit" name="guides">-->
+                    <!--                    </div>-->
+                    <div class="form-group">
+                        <label for="commentsEdit" class="col-form-label">Comments:</label>
+                        <textarea class="form-control" id="commentsEdit" name="comments"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<footer th:insert="fragments.html :: footerfiles"></footer>
+
+</body>
+</html>

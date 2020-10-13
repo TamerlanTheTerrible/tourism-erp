@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head th:insert="fragments.html :: headerfiles">
+    <title>Регистрация новой группы</title>
+</head>
+
+<body>
+<div th:insert="fragments.html :: nav"></div>
+<br/>
+
+<div class="container-fluid row">
+    <div th:insert="fragments.html :: nav-left" class="col-2 container-fluid" ></div>
+    <div class="col-10">
+        <div align="center">
+
+            <form action="#" th:action="@{/to/groups/save}" th:object="${group}" method="post" style="width: 300px">
+                <h2 class="form-signin-heading">NEW GROUP</h2>
+                <p>
+                    <label for="company" class="sr-only">Company</label>
+                    <input type="text" id="company" name="company" class="form-control"
+                           placeholder="Company" th:field="*{company}"required autofocus>
+                </p>
+
+                <p>
+                    <label for="country" class="sr-only">Country</label>
+                    <input type="text" id="country" name="country" class="form-control"
+                           placeholder="Country" th:field="*{country}"required autofocus>
+                </p>
+
+                <p>
+                    <label for="pax" class="sr-only">Pax</label>
+                    <input type="text" id="pax" name="pax" class="form-control"
+                           placeholder="Pax" th:field="*{pax}"required autofocus>
+                </p>
+
+                <p>
+                    <label for="arrival" class="sr-only">Arrival</label>
+                    <input type="date" id="arrival" name="arrival" class="form-control"
+                           placeholder="Arrival" th:field="*{arrivalInString}"required autofocus>
+                </p>
+
+                <p>
+                    <label for="guides" class="sr-only">Guides</label>
+                    <input type="text" id="guides" name="guides" class="form-control"
+                           placeholder="Arrival" th:field="*{guides}"required autofocus>
+                </p>
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<footer th:insert="fragments.html :: footerfiles"></footer>
+
+</body>
+</html>

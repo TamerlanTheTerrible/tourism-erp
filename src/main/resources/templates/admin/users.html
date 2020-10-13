@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="/webjars/bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet">
+    <title>Groups</title>
+    <head th:insert="fragments.html :: headerfiles">
+</head>
+<body>
+<header th:insert="fragments.html :: nav"></header>
+<br/><br/>
+<a href="new" style="padding-left: 5px">New user</a>
+<div align="center">
+    <br/>
+    <table class="table table-striped" cellpadding="10">
+        <thead >
+        <th>Username</th>
+        <th>Password</th>
+        <th>Role</th>
+        <th>Email</th>
+        <th>Employee</th>
+<!--        TODO add checkbox-->
+<!--        <th>Is active</th>-->
+        <th>Actions</th>
+        </thead>
+        <tbody>
+        <tr th:each="user: ${users}">
+            <td th:text="${user.username}">username</td>
+<!--            TODO password re-enter request-->
+            <td th:text="${user.password}">password</td>
+            <td th:text="${user.role}">role</td>
+            <td th:text="${user.email}">email</td>
+            <td th:text="${user.employee.id}">email</td>
+<!--            <td th:text="${user.isActive}">isActive</td>-->
+            <td>
+                <a th:href="@{'/edit/' + ${user.id}}">Edit</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <a th:href="@{'/delete/' + ${user.id}}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.min.js/}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+</body>
+</html>

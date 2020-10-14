@@ -23,13 +23,13 @@ class AccomController
         return "/tour_operator/accommodation/accommodation"
     }
 
-    @GetMapping("/new/{id}")
+    @RequestMapping("/new/{id}")
     fun new(@PathVariable(name="id") id: Long,
             model: Model): String {
         val claim = AccommodationListDto()
         val group = groupService.findById(id)
         for (i in 1..4) {
-            var accom = Accommodation()
+            val accom = Accommodation()
             accom.checkIn="14:00"
             accom.checkOut="18:00"
             claim.addAccommodation(accom)

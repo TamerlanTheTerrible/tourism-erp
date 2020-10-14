@@ -24,6 +24,10 @@ class HotelController
     fun hotels(model: Model): String {
         val accommodations = accomRepo.findAll()
         model.addAttribute("accommodations", accommodations)
-        return "/tour_operator/accommodation/accommodation"
+        val address: String= if (accommodations.isEmpty())
+            "/index"
+        else
+            "/tour_operator/accommodation/accommodation"
+        return address
     }
 }

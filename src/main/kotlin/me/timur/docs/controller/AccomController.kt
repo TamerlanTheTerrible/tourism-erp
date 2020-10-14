@@ -38,13 +38,13 @@ class AccomController
 
         model.addAttribute("claim", claim)
         model.addAttribute("group", group)
-        return "/tour_operator/accommodation/accommodation_new"
+        return "/index"
     }
 
     @PostMapping("/save-all/{id}")
     fun saveAll(@PathVariable(name = "id") id: Long,
                 @ModelAttribute("claim") claim: AccommodationListDto): String {
         accomService.saveAll(claim, id)
-        return "redirect:/to/accommodation/"
+        return "redirect:/to/accommodation/all"
     }
 }

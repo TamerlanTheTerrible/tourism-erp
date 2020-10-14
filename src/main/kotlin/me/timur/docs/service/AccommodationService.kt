@@ -19,10 +19,6 @@ class AccommodationService
                             private val groupRepository: GroupRepository) {
 
 
-    fun findAllByGroup(group: Group): List<Accommodation>{
-        return accommodationRepository.findAllByGroup(group)
-    }
-
     fun findAll(): Map<Group?, List<Accommodation>> {
         return accommodationRepository.findAll().groupBy { it.group }
     }

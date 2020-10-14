@@ -109,11 +109,4 @@ class GroupController (@Autowired private val groupService: GroupService,
 //        groupService.save(group)
 //        return "redirect:/"
 //    }
-
-       @GetMapping("/accommodation")
-        fun findAll(model: Model): String {
-           val accommodations = accomService.findAll()
-           model.addAttribute("accommodations", accommodations)
-           return "/tour_operator/accommodation/accommodation"
-    }
 }

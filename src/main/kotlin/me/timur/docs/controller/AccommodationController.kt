@@ -24,7 +24,7 @@ class AccommodationController
     fun findAll(model: Model): String {
         val accommodations = accomService.findAll()
         model.addAttribute("accommodations", accommodations)
-        return "/tour_operator/accommodation/accommodation"
+        return "tour_operator/accommodation/accommodation"
     }
 
     @GetMapping("/new/{id}")
@@ -50,13 +50,13 @@ class AccommodationController
         model.addAttribute("group", group)
 
         logger.warn("NEW exit")
-        return "/tour_operator/accommodation/accommodation_new"
+        return "tour_operator/accommodation/accommodation_new"
     }
 
     @PostMapping("/save-all/{id}")
     fun saveAll(@PathVariable(name = "id") id: Long,
                 @ModelAttribute("claim") claim: AccommodationListDto): String {
         accomService.saveAll(claim, id)
-        return "redirect:/tour_operator/accommodation/all"
+        return "redirect: tour_operator/accommodation/all"
     }
 }

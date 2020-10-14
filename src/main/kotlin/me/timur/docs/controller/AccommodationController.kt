@@ -45,6 +45,6 @@ class AccommodationController
     fun saveAll(@PathVariable(name = "id") id: Long,
                 @ModelAttribute("claim") claim: AccommodationListDto): String {
         accomService.saveAll(claim, id)
-        return "redirect:/to/accommodation/all"
+        return "redirect:/tour_operator/accommodation/all"
     }
 }

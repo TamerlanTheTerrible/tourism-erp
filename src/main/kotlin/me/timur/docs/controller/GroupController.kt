@@ -5,17 +5,20 @@ import me.timur.docs.enums.GroupStatus
 import me.timur.docs.security.UserPrincipal
 import me.timur.docs.service.AccommodationService
 import me.timur.docs.service.GroupService
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import kotlin.reflect.jvm.jvmName
 
 @Controller
 @RequestMapping("to/groups")
 class GroupController (@Autowired private val groupService: GroupService,
                         private val accomService: AccommodationService) {
 
+    private val logger = LoggerFactory.getLogger(GroupController::class.jvmName)
 
     @GetMapping("/all")
     fun all(model : Model) : String {
@@ -46,8 +49,14 @@ class GroupController (@Autowired private val groupService: GroupService,
 
     @GetMapping("/all-booked-by-to", "/")
     fun allBookedByTourOperator(@AuthenticationPrincipal userPrincipal: UserPrincipal, model : Model): String{
+
+        logger.warn("groups enter")
+
         val groups= groupService.findAllByTourOperatorAndStatus(userPrincipal.user, GroupStatus.BOOKED)
         model.addAttribute("groups", groups)
+
+        logger.warn("groups exit")
+
         return "tour_operator/group/groups"
     }
 

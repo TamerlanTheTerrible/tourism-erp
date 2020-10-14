@@ -17,7 +17,7 @@ class HomeController{
     @Autowired
     GroupService groupService;
 
-    @GetMapping("index")
+    @GetMapping("/index")
     public String index(Model model){
         List<Group> groups = groupService.findAll();
         model.addAttribute("groups", groups);

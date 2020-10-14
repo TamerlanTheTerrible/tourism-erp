@@ -21,7 +21,7 @@ class AccommodationController
     fun findAll(model: Model): String {
         val accommodations = accomService.findAll()
         model.addAttribute("accommodations", accommodations)
-        return "/index"
+        return "/tour_operator/accommodation/accommodation"
     }
 
     @GetMapping("/new/{id}")

@@ -18,9 +18,6 @@ class AccommodationService
     @Autowired constructor(private val accommodationRepository: AccommodationRepository,
                             private val groupRepository: GroupRepository) {
 
-//    fun findAllByClaim(claim: AccomClaim): List<Accommodation>{
-//        return accommodationRepository.findAllByClaim(claim).sortedBy { it.arrival }
-//    }
 
     fun findAllByGroup(group: Group): List<Accommodation>{
         return accommodationRepository.findAllByGroup(group)

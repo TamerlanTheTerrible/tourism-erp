@@ -81,13 +81,13 @@ class GroupController (@Autowired private val groupService: GroupService,
 //        @RequestMapping("/update", method = {RequestMethod.PUT, RequestMethod.GET})
     fun update(group: Group, @AuthenticationPrincipal userPrincipal: UserPrincipal): String{
         groupService.update(group, userPrincipal.user);
-        return "redirect:/to/groups/"
+        return "redirect:/tour_operator/groups/"
     }
 
     @RequestMapping("/cancel/{id}")
     fun cancel(@PathVariable(name="id") id: Long): String{
         groupService.cancel(id)
-        return "redirect:/to/groups/"
+        return "redirect:/tour_operator/groups/"
     }
 
     @GetMapping("/findById/{id}")

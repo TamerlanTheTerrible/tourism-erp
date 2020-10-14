@@ -14,7 +14,36 @@
     <div th:insert="fragments.html :: nav-left" class="col-2 container-fluid" ></div>
     <div class="col-10">
         <div class="container-fluid">
-            <h1 style="border-bottom: 1px solid black">Welcome!!!</h1>
+            <h1 style="border-bottom: 1px solid black">Welcome</h1>
+            <div class="card">
+                <div class="card-block">
+                    <table class="table table-hover table-sm table-striped">
+                        <thead class="thead-dark">
+                        <th>Group #</th>
+                        <th>Pax</th>
+                        <th style="width: 15%">Company</th>
+                        <th>Country</th>
+                        <th>Arrival</th>
+                        <!--                        <th style="width: 15%">Guides</th>-->
+                        <th style="width: 20%">Comments</th>
+                        <th>Responsible</th>
+                        </thead>
+                        <tbody>
+                        <tr th:each="group: ${groups}"
+                            th:style="${!group.isActive()} ? 'color:red'">
+                            <td th:text="${group.groupNumber}" style="font-weight: bold">Group #</td>
+                            <td th:text="${group.pax}">Pax</td>
+                            <td th:text="${group.company }">Company</td>
+                            <td th:text="${group.country}">Country</td>
+                            <td th:text="${#dates.format(group.arrival, 'dd/MMM/yyyy')}">Arrival</td>
+                            <td th:text="${group.comments}" style="font-size: smaller; font-style: italic">Comments</td>
+                            <td th:text="${group.tourOperator.username}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
         </div>
     </div>
 

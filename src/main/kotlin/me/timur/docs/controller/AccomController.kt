@@ -28,7 +28,7 @@ class AccomController
             model: Model): String {
         val claim = AccommodationListDto()
         val group = groupService.findById(id)
-        for (i in 1..8) {
+        for (i in 1..4) {
             var accom = Accommodation()
             accom.checkIn="14:00"
             accom.checkOut="18:00"

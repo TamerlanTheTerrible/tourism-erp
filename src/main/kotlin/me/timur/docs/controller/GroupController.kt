@@ -4,22 +4,18 @@ import me.timur.docs.domain.Group
 import me.timur.docs.enums.GroupStatus
 import me.timur.docs.security.UserPrincipal
 import me.timur.docs.service.AccommodationService
-import me.timur.docs.service.CompanyService
 import me.timur.docs.service.GroupService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.access.annotation.Secured
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import javax.annotation.security.RolesAllowed
-import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping("to/groups")
 class GroupController (@Autowired private val groupService: GroupService,
                         private val accomService: AccommodationService) {
+
 
     @GetMapping("/all")
     fun all(model : Model) : String {
@@ -74,7 +70,7 @@ class GroupController (@Autowired private val groupService: GroupService,
     fun save(@ModelAttribute("group") group: Group,
              @AuthenticationPrincipal userPrincipal: UserPrincipal) : String {
         groupService.save(group, userPrincipal.user)
-        return "redirect:/to/groups/"
+        return "redirect:/tour_operator/groups/"
     }
 
     @RequestMapping("/update")

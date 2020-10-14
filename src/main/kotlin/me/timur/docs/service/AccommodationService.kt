@@ -26,8 +26,12 @@ class AccommodationService
         return accommodationRepository.findAllByGroup(group)
     }
 
-    fun findAll(): Map<Group?, List<Accommodation>> {
-        return accommodationRepository.findAll().groupBy { it.group }
+//    fun findAll(): Map<Group?, List<Accommodation>> {
+//        return accommodationRepository.findAll().groupBy { it.group }
+//    }
+
+    fun findAll(): List<Accommodation> {
+        return accommodationRepository.findAll()
     }
 
     fun findById(id: Long): Accommodation{

@@ -3,6 +3,7 @@ package me.timur.docs.controller
 import me.timur.docs.domain.Group
 import me.timur.docs.enums.GroupStatus
 import me.timur.docs.security.UserPrincipal
+import me.timur.docs.service.AccommodationService
 import me.timur.docs.service.CompanyService
 import me.timur.docs.service.GroupService
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 @RequestMapping("to/groups")
 class GroupController (@Autowired private val groupService: GroupService,
-                        private val companyService: CompanyService) {
+                        private val accomService: AccommodationService) {
 
     @GetMapping("/all")
     fun all(model : Model) : String {
@@ -103,4 +104,11 @@ class GroupController (@Autowired private val groupService: GroupService,
 //        groupService.save(group)
 //        return "redirect:/"
 //    }
+
+       @GetMapping("/accommodation")
+        fun findAll(model: Model): String {
+           val accommodations = accomService.findAll()
+           model.addAttribute("accommodations", accommodations)
+           return "/tour_operator/accommodation/accommodation"
+    }
 }

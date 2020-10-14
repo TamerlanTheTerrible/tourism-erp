@@ -20,11 +20,6 @@ class HotelController
 
     @GetMapping("/all", "/")
     fun hotels(model: Model): String {
-        val accommodations = accomRepo.findAll()
-        model.addAttribute("accommodations", accommodations)
-        return if (accommodations.isEmpty())
-            "/index"
-        else
-            "/tour_operator/accommodation/accommodation"
+        return "/tour_operator/accommodation/accommodation"
     }
 }

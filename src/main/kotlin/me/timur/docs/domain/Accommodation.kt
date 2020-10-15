@@ -44,7 +44,7 @@ class Accommodation : BaseLong(){
 
     @Enumerated(EnumType.STRING)
     @Column(name="status")
-    var status: ClaimDetailStatus? = null
+    var status: ClaimDetailStatus? = ClaimDetailStatus.CONFIRMED
 
     @Column(name= "comments")
     var comments: String = ""

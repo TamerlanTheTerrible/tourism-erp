@@ -1,6 +1,8 @@
 package me.timur.docs.controller
 
 import me.timur.docs.domain.Accommodation
+import me.timur.docs.domain.Employee
+import me.timur.docs.enums.ClaimDetailStatus
 import me.timur.docs.model.AccommodationListDto
 import me.timur.docs.service.AccommodationService
 import me.timur.docs.service.GroupService
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.ModelAndView
 import kotlin.reflect.jvm.jvmName
 
 @Controller
@@ -22,7 +25,7 @@ class AccommodationController
 
     @GetMapping("/", "/all")
     fun findAll(model: Model): String {
-        val accommodations = accomService.findAll()
+        val accommodations = accomService.findAllByStatus(ClaimDetailStatus.CONFIRMED)
         model.addAttribute("accommodations", accommodations)
         return "tour_operator/accommodation/accommodation"
     }
@@ -30,14 +33,9 @@ class AccommodationController
     @GetMapping("/new/{id}")
     fun new(@PathVariable(name="id") id: Long,
             model: Model): String {
-
-        logger.warn("NEW enter")
         val claim = AccommodationListDto()
-
-        logger.warn("NEW find group by ID")
         val group = groupService.findById(id)
 
-        logger.warn("NEW assign default values to 'checkIn' and 'checkOut' ")
         for (i in 1..4) {
             val accom = Accommodation()
             accom.checkIn="14:00"
@@ -45,11 +43,8 @@ class AccommodationController
             claim.addAccommodation(accom)
         }
 
-        logger.warn("NEW add model attributes")
         model.addAttribute("claim", claim)
         model.addAttribute("group", group)
-
-        logger.warn("NEW exit")
         return "tour_operator/accommodation/accommodation_new"
     }
 
@@ -57,6 +52,27 @@ class AccommodationController
     fun saveAll(@PathVariable(name = "id") id: Long,
                 @ModelAttribute("claim") claim: AccommodationListDto): String {
         accomService.saveAll(claim, id)
-        return "redirect: tour_operator/accommodation/all"
+        return "redirect:/to/accommodation/"
     }
+
+    @PostMapping("/save")
+    fun save(@ModelAttribute("accommodation") accommodation: Accommodation) : String {
+        accomService.save(accommodation)
+        return "redirect:/to/accommodation/"
+    }
+
+    @RequestMapping("/delete/{id}")
+    fun delete(@PathVariable(name = "id") id: Long): String{
+        accomService.cancel(id)
+        return "redirect:/to/accommodation/"
+    }
+
+    @RequestMapping("/edit/{id}")
+    fun edit(@PathVariable(name="id") id : Long) : ModelAndView {
+        val mav = ModelAndView("tour_operator/accommodation/accommodation_edit")
+        val accommodation = accomService.findById(id)
+        mav.addObject("accommodation", accommodation)
+        return mav
+    }
+
 }

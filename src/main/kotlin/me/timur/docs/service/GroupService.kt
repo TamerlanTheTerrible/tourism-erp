@@ -2,8 +2,10 @@ package me.timur.docs.service
 
 import me.timur.docs.domain.Group
 import me.timur.docs.domain.User
+import me.timur.docs.enums.ClaimDetailStatus
 import me.timur.docs.enums.GroupStatus
 import me.timur.docs.exception.ResourceNotFoundException
+import me.timur.docs.repository.AccommodationRepository
 import me.timur.docs.repository.GroupRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -13,7 +15,8 @@ import kotlin.streams.toList
 
 @Service
 class GroupService
-@Autowired constructor(private val groupRepo : GroupRepository)
+@Autowired constructor(private val groupRepo : GroupRepository,
+                       private val accommodationRepository: AccommodationRepository)
 {
     fun findAll() : List<Group>{
         return groupRepo.findAll().sortedBy { it.arrival }
@@ -66,8 +69,15 @@ class GroupService
 
     fun cancel(id: Long){
         val group = findById(id)
+        val accomClaim = accommodationRepository.findAllByGroup(group)
+
+        for (accom in accomClaim){
+            accom.status = ClaimDetailStatus.CANCELLED
+        }
+
         group.status = GroupStatus.CANCELLED
         group.isActive = false
+
         groupRepo.save(group)
     }
 }

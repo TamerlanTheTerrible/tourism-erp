@@ -79,20 +79,20 @@ class GroupController (@Autowired private val groupService: GroupService,
     fun save(@ModelAttribute("group") group: Group,
              @AuthenticationPrincipal userPrincipal: UserPrincipal) : String {
         groupService.save(group, userPrincipal.user)
-        return "redirect:/tour_operator/groups/"
+        return "redirect:/to/groups/"
     }
 
     @RequestMapping("/update")
 //        @RequestMapping("/update", method = {RequestMethod.PUT, RequestMethod.GET})
     fun update(group: Group, @AuthenticationPrincipal userPrincipal: UserPrincipal): String{
         groupService.update(group, userPrincipal.user);
-        return "redirect:/tour_operator/groups/"
+        return "redirect:/to/groups/"
     }
 
     @RequestMapping("/cancel/{id}")
     fun cancel(@PathVariable(name="id") id: Long): String{
         groupService.cancel(id)
-        return "redirect:/tour_operator/groups/"
+        return "redirect:/to/groups/"
     }
 
     @GetMapping("/findById/{id}")
@@ -104,9 +104,4 @@ class GroupController (@Autowired private val groupService: GroupService,
         return group
     }
 
-//    @PostMapping("/save-model")
-//    fun saveModal(group: Group) : String {
-//        groupService.save(group)
-//        return "redirect:/"
-//    }
 }

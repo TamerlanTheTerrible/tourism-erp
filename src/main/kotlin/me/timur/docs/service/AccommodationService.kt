@@ -11,7 +11,6 @@ import me.timur.docs.repository.GroupRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.sql.Timestamp
-import java.text.SimpleDateFormat
 
 @Service
 class AccommodationService
@@ -19,8 +18,8 @@ class AccommodationService
                             private val groupRepository: GroupRepository) {
 
 
-    fun findAll(): Map<Group?, List<Accommodation>> {
-        return accommodationRepository.findAll().groupBy { it.group }
+    fun findAllByStatus(status: ClaimDetailStatus): Map<Group?, List<Accommodation>> {
+        return accommodationRepository.findAllByStatus(status).groupBy { it.group }
     }
 
     fun findById(id: Long): Accommodation{
@@ -61,7 +60,7 @@ class AccommodationService
         accommodationRepository.saveAll(finalList)
     }
 
-    fun update(claim: AccommodationListDto){
+    fun updateAll(claim: AccommodationListDto){
         val accommodations = claim.accommodationList
         for (accom in accommodations) {
             if (accom.arrivalInString != "" || accom.departureInString != "") {
@@ -69,5 +68,24 @@ class AccommodationService
                 accom.departure = Timestamp.valueOf("${accom.departureInString} ${accom.checkIn}:00")
             }
         }
+    }
+
+    fun cancelByGroup(id: Long){
+        val group = groupRepository.findById(id).orElseThrow { ResourceNotFoundException(id) }
+        accommodationRepository.deleteAllByGroup(group)
+    }
+
+    fun cancel(id: Long){
+        val accom = findById(id)
+        accom.status = ClaimDetailStatus.CANCELLED
+        save(accom)
+    }
+
+    fun update(accom: Accommodation){
+        if (accom.arrivalInString != "" || accom.departureInString != "") {
+            accom.arrival = Timestamp.valueOf("${accom.arrivalInString} ${accom.checkIn}:00")
+            accom.departure = Timestamp.valueOf("${accom.departureInString} ${accom.checkIn}:00")
+        }
+        accommodationRepository.save(accom)
     }
 }

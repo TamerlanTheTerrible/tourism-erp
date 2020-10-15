@@ -24,9 +24,9 @@
                         <th style="width: 15%">Company</th>
                         <th>Country</th>
                         <th>Arrival</th>
-                        <!--                        <th style="width: 15%">Guides</th>-->
                         <th style="width: 20%">Comments</th>
                         <th>Responsible</th>
+                        <th>Status</th>
                         </thead>
                         <tbody>
                         <tr th:each="group: ${groups}"
@@ -38,6 +38,7 @@
                             <td th:text="${#dates.format(group.arrival, 'dd/MMM/yyyy')}">Arrival</td>
                             <td th:text="${group.comments}" style="font-size: smaller; font-style: italic">Comments</td>
                             <td th:text="${group.tourOperator.username}"></td>
+                            <td th:text="${group.status}"></td>
                         </tr>
                         </tbody>
                     </table>

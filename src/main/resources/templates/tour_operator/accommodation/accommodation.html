@@ -20,13 +20,12 @@
 <!--            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal" >New application</button>-->
             <div class="card">
                 <div class="card-block">
-                    <table class="table table-sm table-light">
-                        <thead class="thead-dark" style="font-size: small">
-                        <th style="width: 4%">#</th>
-                        <th style="width: 3%">Pax</th>
+                    <table class="table table-sm table-striped">
+                        <thead>
+                        <th style="width: 5%">#</th>
+                        <th style="width: 5%">Pax</th>
                         <th style="width: 10%">Country</th>
                         <th>Accommodation</th>
-                        <th style="width: 13%">Actions</th>
                         </thead>
                         <tbody>
                             <tr th:each="claim: ${accommodations}" style="font-size: small">
@@ -34,22 +33,20 @@
                                 <td th:text="${claim.key.pax}">Pax</td>
                                 <td th:text="${claim.key.country}">Country</td>
                                 <td>
-                                    <table class="table table-sm table-hover">
+                                    <table class="table table-sm">
                                         <tr th:each="accom: ${claim.value}">
-                                            <td th:text="${#dates.format(accom.arrival, 'dd/MMM/yyyy')}" style="width: 14%">Arrival</td>
-                                            <td th:text="${#dates.format(accom.departure, 'dd/MMM/yyyy')}" style="width: 14%">Departure</td>
-                                            <td th:text="${accom.place}" style="width: 14%; font-style: italic">Place</td>
-                                            <td th:text="${accom.hotel}" style="width: 20%; font-style: italic">Hotel</td>
-                                            <td th:text="${accom.rooms}" style="width: 20%">Rooms</td>
-                                            <td th:text="${accom.comments}" style="width: 18%">Comments</td>
+                                            <td th:text="${#dates.format(accom.arrival, 'dd/MMM/yyyy')}" style="width: 11%">Arrival</td>
+                                            <td th:text="${#dates.format(accom.departure, 'dd/MMM/yyyy')}" style="width: 11%">Departure</td>
+                                            <td th:text="${accom.place}" style="width: 11%; font-style: italic">Place</td>
+                                            <td th:text="${accom.hotel}" style="width: 16%; font-style: italic">Hotel</td>
+                                            <td th:text="${accom.rooms}" style="width: 18%">Rooms</td>
+                                            <td th:text="${accom.comments}" style="width: 16%">Comments</td>
+                                            <td style="width: 17%">
+                                                <a th:href="@{'/to/accommodation/edit/' + ${accom.id}}" class="btn btn-outline-success btnEdit" style="font-size: smaller">Edit</a>
+                                                <a th:href="@{'/to/accommodation/delete/' + ${accom.id}}" class="btn btn-outline-danger" style="font-size: smaller">Cancel</a>
+                                            </td>
                                         </tr>
                                     </table>
-                                </td>
-                                <td>
-                                    <a  href="#" class="btn btn-outline-success btnEdit" style="font-size: smaller">Edit</a>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href="#" class="btn btn-outline-danger" style="font-size: smaller">Cancel</a>
-
                                 </td>
                             </tr>
                             </span>

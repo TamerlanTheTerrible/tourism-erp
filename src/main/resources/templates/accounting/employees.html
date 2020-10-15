@@ -20,7 +20,6 @@
             <div class="card-block">
                 <table class="table table-striped table-sm ">
                     <thead >
-                    <th>Id</th>
                     <th>Firstname</th>
                     <th>Lastname</th>
                     <th>Initial</th>
@@ -29,7 +28,6 @@
                     </thead>
                     <tbody>
                     <tr th:each="employee: ${employees}">
-                        <td th:text="${employee.id}">id</td>
                         <td th:text="${employee.firstName}">first name</td>
                         <td th:text="${employee.lastName}">last name</td>
                         <td th:text="${employee.initials}">intials</td>

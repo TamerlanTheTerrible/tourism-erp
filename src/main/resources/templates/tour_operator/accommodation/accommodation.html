@@ -20,8 +20,8 @@
 <!--            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal" >New application</button>-->
             <div class="card">
                 <div class="card-block">
-                    <table class="table table-sm table-striped">
-                        <thead>
+                    <table style="border-bottom: cadetblue" class="table table-sm">
+                        <thead class="thead-dark">
                         <th style="width: 5%">#</th>
                         <th style="width: 5%">Pax</th>
                         <th style="width: 10%">Country</th>
@@ -33,7 +33,7 @@
                                 <td th:text="${claim.key.pax}">Pax</td>
                                 <td th:text="${claim.key.country}">Country</td>
                                 <td>
-                                    <table class="table table-sm">
+                                    <table class="table table-sm table-hover">
                                         <tr th:each="accom: ${claim.value}">
                                             <td th:text="${#dates.format(accom.arrival, 'dd/MMM/yyyy')}" style="width: 11%">Arrival</td>
                                             <td th:text="${#dates.format(accom.departure, 'dd/MMM/yyyy')}" style="width: 11%">Departure</td>
